@@ -68,7 +68,7 @@ class FileManager(object):
         :return: None.
         """
 
-        for name, fields in FIELD_NAMES.items():
+        for name in FIELD_NAMES:
             path = fr'{FILE_RAW_PATH}\{self.directory}\{name}.csv'
             with open(path, 'a', newline='', encoding='utf-8') as file:
                 writer = csv.writer(file, delimiter=',')
@@ -116,7 +116,7 @@ class FileManager(object):
         """
 
         path = fr'{CHECKPOINT_PATH}\{checkpoint}'
-        with open(path, 'r') as file:
+        with open(path) as file:
             return json.loads(file.read())
 
     def delete(self) -> None:
@@ -151,9 +151,9 @@ class FileManager(object):
         if mode == 'w':
             self.create()
         elif mode == 'a':
-            for name, fields in FIELD_NAMES.items():
+            for name in FIELD_NAMES:
                 path = fr'{FILE_RAW_PATH}\{self.directory}\{name}.csv'
-                with open(path, 'r', newline='', encoding='utf-8') as file:
+                with open(path, newline='', encoding='utf-8') as file:
                     rows = csv.reader(file, delimiter=',')
                     self.records[name] = sum([1 for _ in rows]) - 1
                 self.size[name] = os.path.getsize(path)

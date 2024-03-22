@@ -388,38 +388,37 @@ class ParsingManager(object):
                     )
 
             for tag in tags:
-                if isinstance(tag, bs4.Tag):
-                    if tag.name == 'div':
-                        country = (tag
-                                   .find('div', class_='cell')
-                                   .text
-                                   .strip())
+                if isinstance(tag, bs4.Tag) and tag.name == 'div':
+                    country = (tag
+                               .find('div', class_='cell')
+                               .text
+                               .strip())
 
-                        releases[country] = []
+                    releases[country] = []
 
-                        details = (tag
-                                   .find('div', class_='cell details')
-                                   .find_all('div', class_='release-date-list'))
+                    details = (tag
+                               .find('div', class_='cell details')
+                               .find_all('div', class_='release-date-list'))
 
-                        for detail in details:
-                            date = detail.find('h6', class_="date").text
-                            date = (datetime
-                                    .datetime
-                                    .strptime(date, '%d %b %Y')
-                                    .strftime('%Y-%m-%d'))
+                    for detail in details:
+                        date = detail.find('h6', class_="date").text
+                        date = (datetime
+                                .datetime
+                                .strptime(date, '%d %b %Y')
+                                .strftime('%Y-%m-%d'))
 
-                            info = detail.find('ul', class_="releases")
+                        info = detail.find('ul', class_="releases")
 
-                            form = (info
-                                    .find('span', class_="type")
-                                    .text
-                                    .strip())
+                        form = (info
+                                .find('span', class_="type")
+                                .text
+                                .strip())
 
-                            rating = info.find('span', class_="label")
-                            rating = await clear(rating
-                                                 .text) if rating else None
+                        rating = info.find('span', class_="label")
+                        rating = await clear(rating
+                                             .text) if rating else None
 
-                            releases[country].append([date, form, rating])
+                        releases[country].append([date, form, rating])
 
             self.success['releases'] += 1
             return releases
