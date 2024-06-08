@@ -80,6 +80,7 @@ class Parser(object):
 
             data = {
                 'movies': [],
+                'posters': [],
                 'actors': [],
                 'crew': [],
                 'releases': [],
@@ -94,6 +95,7 @@ class Parser(object):
                 csv = move.csv()
 
                 data['movies'].append(csv['movies'])
+                data['posters'].append(csv['posters'])
                 data['actors'] += csv['actors']
                 data['crew'] += csv['crew']
                 data['releases'] += csv['releases']
@@ -105,7 +107,9 @@ class Parser(object):
 
             await self.file.write(data)
 
-            images = {movie.id: movie.image for movie in movies if movie.image}
+            images = {movie.id: movie.poster
+                      for movie in movies
+                      if movie.poster}
             await self.file.images(images)
 
             await self.progress.next()
@@ -188,21 +192,21 @@ class Parser(object):
                 text = response['text']
                 await self.parsing.parse(movie, text)
 
-                if movie.image:
+                if movie.link:
                     code, attempts = None, 0
 
                     while code != 200:
                         if attempts > VALID_ATTEMPTS and code != 429:
-                            movie.image = None
+                            movie.poster = None
                             return movie
 
-                        response = await self.network.get(movie.image)
+                        response = await self.network.get(movie.link)
                         code = response['code']
 
                         attempts += 1
 
                         if code == 200:
-                            movie.image = response['binary']
+                            movie.poster = response['binary']
 
         return movie
 
@@ -219,9 +223,9 @@ class Parser(object):
         for link, num in zip(links, ids):
             tasks.append(asyncio.create_task(self.movie(link, num)))
 
-        games = await asyncio.gather(*tasks)
+        movies = await asyncio.gather(*tasks)
 
-        return games
+        return movies
 
     async def disconnect(self) -> None:
         """

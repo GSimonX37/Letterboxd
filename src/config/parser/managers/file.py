@@ -8,6 +8,10 @@ FIELD_NAMES = {
         'minute',
         'rating'
     ],
+    'posters': [
+        'id',
+        'link'
+    ],
     'actors': [
         'id',
         'name',

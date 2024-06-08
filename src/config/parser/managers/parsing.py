@@ -1,5 +1,5 @@
 PARSING_FIELDS = [
-    'image',
+    'link',
     'name',
     'date',
     'description',

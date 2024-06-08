@@ -3,7 +3,8 @@ class Movie(object):
     Фильм;
 
     :var id: идентификатор;
-    :var image: ссылка на постер;
+    :var link: ссылка на постер;
+    :var poster: постер;
     :var name: название;
     :var date: год выхода;
     :var description: описание;
@@ -15,12 +16,12 @@ class Movie(object):
     :var releases: релизы;
     :var minute: продолжительность (в минутах);
     :var rating: средний рейтинг;
-
     """
 
     def __init__(self, num: int):
         self.id: int | None = num
-        self.image: str | None = None
+        self.link: str | None = None
+        self.poster: bytes | None = None
         self.name: str | None = None
         self.date: str | None = None
         self.description: str | None = None
@@ -49,6 +50,10 @@ class Movie(object):
                 self.description,
                 self.minute,
                 self.rating
+            ],
+            'posters': [
+                self.id,
+                self.link
             ],
             'actors': [[self.id, name, role] for name, role in self.actors],
             'crew': [[self.id, role, name]

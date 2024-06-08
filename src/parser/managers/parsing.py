@@ -35,7 +35,7 @@ class ParsingManager(object):
 
         soup = BeautifulSoup(text, 'html.parser')
 
-        movie.image = await self.image(soup)
+        movie.link = await self.link(soup)
         movie.name = await self.name(soup)
         movie.date = await self.date(soup)
         movie.description = await self.description(soup)
@@ -48,7 +48,7 @@ class ParsingManager(object):
         movie.minute = await self.minute(soup)
         movie.rating = await self.rating(soup)
 
-    async def image(self, soup: BeautifulSoup) -> str | None:
+    async def link(self, soup: BeautifulSoup) -> str | None:
         """
         Осуществляет парсинг ссылки на изображение;
 
@@ -64,14 +64,14 @@ class ParsingManager(object):
             contents = ast.literal_eval(contents[start:finish])
             image = contents['image']
 
-            self.success['image'] += 1
+            self.success['link'] += 1
             return image
         except AttributeError:
-            self.failed['image'] += 1
+            self.failed['link'] += 1
         except ValueError:
-            self.failed['image'] += 1
+            self.failed['link'] += 1
         except KeyError:
-            self.failed['image'] += 1
+            self.failed['link'] += 1
 
     async def name(self, soup: BeautifulSoup) -> str | None:
         """
