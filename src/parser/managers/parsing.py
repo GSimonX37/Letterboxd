@@ -83,7 +83,7 @@ class ParsingManager(object):
 
         try:
             name = (soup
-                    .find('section', id="featured-film-header")
+                    .find('section', class_="film-header-group")
                     .find('h1')
                     .text)
 
@@ -104,7 +104,8 @@ class ParsingManager(object):
 
         try:
             date = (soup
-                    .find('small')
+                    .find('section', class_="film-header-group")
+                    .find('div', class_="releaseyear")
                     .text)
             date = int(date)
 
