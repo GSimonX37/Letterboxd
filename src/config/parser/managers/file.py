@@ -10,7 +10,8 @@ FIELD_NAMES = {
     ],
     'actors': [
         'id',
-        'name'
+        'name',
+        'role'
     ],
     'crew': [
         'id',

@@ -50,7 +50,7 @@ class Movie(object):
                 self.minute,
                 self.rating
             ],
-            'actors': [[self.id, name] for name in self.actors],
+            'actors': [[self.id, name, role] for name, role in self.actors],
             'crew': [[self.id, role, name]
                      for role in self.crew
                      for name in self.crew[role]],

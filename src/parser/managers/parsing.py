@@ -179,7 +179,9 @@ class ParsingManager(object):
                       .find('div', id='tabbed-content')
                       .find('div', id='tab-cast')
                       .find_all('a', class_='text-slug tooltip'))
-            actors = [actor.text for actor in actors]
+
+            actors = [[actor.text, actor.attrs.get('title', None)]
+                      for actor in actors]
 
             self.success['actors'] += 1
             return actors
