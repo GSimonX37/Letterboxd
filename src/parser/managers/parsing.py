@@ -375,7 +375,7 @@ class ParsingManager(object):
                     len(string) < 6 and
                     string.isascii() and
                     (len(chars) == 0 or chars.isupper()) and
-                    (not symbols or set(symbols) < {'-', '/'})):
+                    (not symbols or set(symbols) < {'-', '/', '+'})):
                 return string.strip()
             else:
                 return None
